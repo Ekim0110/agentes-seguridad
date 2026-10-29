@@ -1,5 +1,6 @@
-// Página de inicio. Por ahora solo muestra la idea de la herramienta.
-// En la Fase 1 el formulario empezará a analizar links de verdad.
+// Página de inicio: explica la herramienta y muestra el formulario de análisis.
+
+import FormularioAnalisis from "./formulario-analisis";
 
 const agentes = [
   { nombre: "Seguridad", detalle: "Accesos, datos y certificado SSL" },
@@ -19,25 +20,7 @@ export default function Home() {
         </p>
       </header>
 
-      <form className="flex flex-col gap-3 sm:flex-row">
-        <label htmlFor="url" className="sr-only">
-          Link de tu web
-        </label>
-        <input
-          id="url"
-          type="url"
-          placeholder="https://tu-web.com"
-          disabled
-          className="flex-1 rounded-lg border border-zinc-300 px-4 py-3 dark:border-zinc-700"
-        />
-        <button
-          type="submit"
-          disabled
-          className="rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white opacity-60 dark:bg-white dark:text-zinc-900"
-        >
-          Analizar (próximamente)
-        </button>
-      </form>
+      <FormularioAnalisis />
 
       <section className="grid gap-4 sm:grid-cols-2">
         {agentes.map((agente) => (
@@ -52,7 +35,7 @@ export default function Home() {
       </section>
 
       <p className="text-sm text-zinc-500">
-        Solo se pueden analizar sitios de los que seas dueño o tengas permiso por escrito.
+        Solo se pueden analizar sitios de los que seas dueño o tengas permiso por escrito. Por ahora revisamos la seguridad básica (HTTPS, certificado, cabeceras y cookies); los demás agentes llegan en las próximas fases.
       </p>
     </main>
   );

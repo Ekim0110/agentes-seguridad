@@ -14,6 +14,15 @@ Hecha con Next.js, TypeScript y Tailwind CSS. Se publica en Vercel.
 
 ## Estado
 
-Fase 0: proyecto base. El botón "Analizar" todavía no funciona; llega en la Fase 1.
+Fase 1: revisión de seguridad básica de un link.
+
+- `src/lib/revision/validar-url.ts`: bloquea links a redes internas o privadas (protección contra SSRF).
+- `src/lib/revision/revisar-sitio.ts`: visita la web una vez y revisa HTTPS, certificado, cabeceras de seguridad y cookies.
+- `src/lib/revision/explicar-con-claude.ts`: si hay `ANTHROPIC_API_KEY`, Claude escribe un resumen en español sencillo.
+- `src/app/api/analizar/route.ts`: la API que usa la página.
+
+Sin `ANTHROPIC_API_KEY` la herramienta funciona igual, pero sin el resumen del agente.
+
+Límite conocido: la validación del link se hace antes de abrirlo; un sitio malicioso podría cambiar su IP justo después (DNS rebinding). Lo cerramos en una fase siguiente.
 
 Solo se deben analizar sitios propios o con permiso por escrito de su dueño.
