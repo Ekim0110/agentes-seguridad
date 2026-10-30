@@ -69,7 +69,7 @@ export default function FormularioAnalisis() {
       {respuesta?.ok && (
         <section className="flex flex-col gap-6" aria-live="polite">
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold">Informe de {respuesta.resultado.urlFinal}</h2>
+            <h2 className="break-all text-xl font-semibold">Informe de {respuesta.resultado.urlFinal}</h2>
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               {respuesta.resultado.hallazgos.length === 0
                 ? "No encontramos fallas en esta revisión básica."
