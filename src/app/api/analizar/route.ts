@@ -2,7 +2,7 @@
 // Corre en el servidor: aquí sí podemos usar la clave secreta de Claude.
 
 import { explicarConClaude } from "@/lib/revision/explicar-con-claude";
-import { revisarSitio } from "@/lib/revision/revisar-sitio";
+import { revisarSitio, SitioRedirigido } from "@/lib/revision/revisar-sitio";
 import { ORDEN_GRAVEDAD, type RespuestaAnalisis } from "@/lib/revision/tipos";
 import { UrlNoPermitida } from "@/lib/revision/validar-url";
 
@@ -26,7 +26,7 @@ export async function POST(request: Request): Promise<Response> {
     const explicacion = await explicarConClaude(resultado);
     return responder({ ok: true, resultado, explicacion }, 200);
   } catch (error) {
-    if (error instanceof UrlNoPermitida) return responder({ ok: false, error: error.message }, 400);
+    if (error instanceof UrlNoPermitida || error instanceof SitioRedirigido) return responder({ ok: false, error: error.message }, 400);
     const mensaje = error instanceof Error ? error.message : "Algo salió mal al revisar la web.";
     return responder({ ok: false, error: mensaje }, 502);
   }

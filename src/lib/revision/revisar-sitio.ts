@@ -9,9 +9,21 @@ const TIEMPO_MAXIMO_MS = 10_000;
 const MAX_REDIRECCIONES = 5;
 const AGENTE = "AgentesSeguridad/0.1 (revision pasiva)";
 
+export class SitioRedirigido extends Error {}
+
 export async function revisarSitio(texto: string): Promise<ResultadoRevision> {
   const inicial = await validarUrl(texto);
   const { respuesta, urlFinal } = await visitar(inicial);
+
+  // Si la web nos manda a otro sitio (por ejemplo, a una página de inicio de sesión),
+  // paramos: revisaríamos un sitio distinto al que nos pidieron.
+  const sinWww = (host: string) => host.replace(/^www\./, "");
+  if (sinWww(urlFinal.hostname) !== sinWww(inicial.hostname)) {
+    throw new SitioRedirigido(
+      `Esta web te lleva a otro sitio (${urlFinal.hostname}). Puede que esté protegida con inicio de sesión. ` +
+        "No la analizamos para no revisar un sitio distinto al que pediste. Prueba con la dirección pública de tu web.",
+    );
+  }
   const cabeceras = respuesta.headers;
 
   const hallazgos: Hallazgo[] = [];
